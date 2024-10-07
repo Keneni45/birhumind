@@ -14,11 +14,12 @@ class WebPage(models.Model):
     def __str__(self):
         return self.name
 class AccessRecord(models.Model):
-    name=models.ForeignKey(WebPage, on_delete=models.CASCADE)
+    title=models.ForeignKey(WebPage, on_delete=models.CASCADE)
     date=models.DateField()
+    logo = models.ImageField(upload_to='finance_images/', blank=True, null=True)
 
     def __str__(self):
-      return str(self.date)
+      return (self.title)
 
 class OurSuccess(models.Model):
     title=models.CharField(max_length=200)
@@ -30,7 +31,9 @@ class OurSuccess(models.Model):
 
     def __str__(self):
         return self.title
-
+class AccessToFinance(models.Model):
+    title=models.CharField(max_length=100)
+    description=models.TextField()
 class Consultancy(models.Model):
     title=models.CharField(max_length=200)
     description=models.TextField()

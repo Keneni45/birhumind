@@ -1,8 +1,10 @@
 from rest_framework import viewsets, generics
-from .models import  NewsArticle, News, OurService, UserProfile, OurSuccess, Tutorial, Consultancy
-from .serializers import NewsArticleSerializer, NewsSerializer, OurServiceSerializer, UserRegistrationSerializer, OurSuccessSerializer, TutorialSerializer, ConsultancySerializer
+from .models import  NewsArticle, News, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance
+from .serializers import NewsArticleSerializer, NewsSerializer, OurServiceSerializer, UserRegistrationSerializer, OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer
 
-
+class AccessToFinanceViewset(viewsets.ModelViewSet):
+    queryset=AccessToFinance.objects.all()
+    serializer_class=AccessToFinanceSerializer
 class ConsultancyViewset(viewsets.ModelViewSet):
     queryset=Consultancy.objects.all()
     serializer_class=ConsultancySerializer

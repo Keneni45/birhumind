@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import NewsArticle, News, OurService, UserProfile, OurSuccess, Tutorial, Consultancy
+from .models import NewsArticle, News, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance
 from django.contrib.auth.models import User
 
+
+class AccessToFinanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=AccessToFinance
+        fields='__all__'
 class ConsultancySerializer(serializers.ModelSerializer):
     class Meta:
         model=Consultancy

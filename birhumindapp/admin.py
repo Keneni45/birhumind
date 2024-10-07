@@ -1,5 +1,5 @@
 from django.contrib import admin
-from birhumindapp.models import WebPage, AccessRecord, Topic, NewsArticle, News, OurService,OurSuccess, Tutorial, Consultancy
+from birhumindapp.models import WebPage, AccessRecord, Topic, NewsArticle, News, OurService,OurSuccess, Tutorial, Consultancy, AccessToFinance
 
 
 admin.site.register(Topic)
@@ -11,9 +11,13 @@ admin.site.register(OurService)
 admin.site.register(OurSuccess)
 admin.site.register(Tutorial)
 admin.site.register(Consultancy)
+admin.site.register(AccessToFinance)
 admin.site.site_header = "Birhuminds Admin Interface"
 admin.site.index_title = "Welcome to My Admin Portal"
 
+
+class AccessToFinanceAdmin(admin.ModelAdmin):
+    list_display=('title', 'description', 'image')
 class ConsultancyAdmin(admin.ModelAdmin):
     list_display=('title', 'description')
 class NewsArticleAdmin(admin.ModelAdmin):
