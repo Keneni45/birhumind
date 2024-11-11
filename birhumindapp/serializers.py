@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import NewsArticle, News, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance
+from .models import News, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance
 from django.contrib.auth.models import User
 
 
@@ -11,12 +11,6 @@ class ConsultancySerializer(serializers.ModelSerializer):
     class Meta:
         model=Consultancy
         fields='__all__'
-
-class NewsArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = NewsArticle
-        fields = '__all__'
-
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
@@ -36,21 +30,4 @@ class TutorialSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ('age', 'gender', 'education_level')
-
-class UserRegistrationSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer()
-
-    class Meta:
-        model = User
-        fields = ('username', 'password', 'profile')
-
-    def create(self, validated_data):
-        profile_data = validated_data.pop('profile')  # Extract profile data
-        user = User(**validated_data)
-        user.set_password(validated_data['password'])  # Hash the password
-        user.save()  # Save the User instance
-
-        # Create the UserProfile instance
-        UserProfile.objects.create(user=user, **profile_data)
-        return user
+        fields = ['username', 'age', 'gender', 'education_level']

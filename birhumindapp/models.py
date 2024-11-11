@@ -10,13 +10,20 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
-class Registration(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    registered_on = models.DateTimeField(auto_now_add=True)
+class UserProfile(models.Model):
+    username = models.CharField(max_length=255)
+    age = models.IntegerField()
+    gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female')])
+    education_level = models.CharField(max_length=20, choices=[
+        ('no-formal', 'No Formal Education'),
+        ('primary', 'Primary'),
+        ('secondary', 'Secondary'),
+        ('degree', 'Degree'),
+        ('masterPlus', 'Masters or Higher')
+    ])
 
     def __str__(self):
-        return f"{self.user.username} registered for {self.event.title}"
+        return self.username
 class Topic(models.Model):
     top_name = models.CharField(max_length=100)
     # description = models.TextField()
@@ -92,31 +99,6 @@ class News(models.Model):
     def __str__(self):
         return self.title
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    age = models.PositiveIntegerField()
-    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')])
-    education_level = models.CharField(max_length=100, choices=[('No Formal Education', 'No Formal Education'),('Primary Education','Primary Education'),('Secondary Education','Secondary Education'),('Degree','Degree'), ('Master Degree','Master Degree')])
-
-    def __str__(self):
-        return self.user.username
-
-class NewsArticle(models.Model):
-    title = models.CharField(max_length=200)
-    subHead = models.CharField(max_length=200)
-    content = models.TextField()
-    author = models.CharField(max_length=100)
-    published_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='news_images/', blank=True, null=True)
-    category = models.CharField(max_length=100, blank=True)
-
-    class Meta:
-        ordering = ['-published_date']  # Newest articles first
-
-    def __str__(self):
-        return self.title
-
     
 class Tutorial(models.Model):
     title = models.CharField(max_length=200)
@@ -130,7 +112,3 @@ class Tutorial(models.Model):
     def __str__(self):
         return self.title
 
-
-
-
-# Create your models here.
