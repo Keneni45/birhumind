@@ -102,12 +102,14 @@ class News(models.Model):
     
 class Tutorial(models.Model):
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='tutorials_images/', blank=True, null=True)
+    course_image = models.ImageField(upload_to='tutorials_images/', blank=True, null=True)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    author = models.CharField(max_length=100)
-    is_published = models.BooleanField(default=False)
+    instructor = models.CharField(max_length=100)
+    instructor_image=models.ImageField(upload_to='instructor_images/', blank=True, null=True)
+    instructor_title=models.CharField(max_length=200)
+    about_instructor=models.TextField()
 
     def __str__(self):
         return self.title
