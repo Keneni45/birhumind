@@ -24,26 +24,6 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.username
-class Topic(models.Model):
-    top_name = models.CharField(max_length=100)
-    # description = models.TextField()
-
-    def __str__(self):
-         return self.top_name
-class WebPage(models.Model):
-    topic=models.ForeignKey(Topic, on_delete=models.CASCADE)
-    name=models.CharField(max_length=120)
-    # url=models.URLField(unique=True)
-
-    def __str__(self):
-        return self.name
-class AccessRecord(models.Model):
-    title=models.ForeignKey(WebPage, on_delete=models.CASCADE)
-    date=models.DateField()
-    logo = models.ImageField(upload_to='finance_images/', blank=True, null=True)
-
-    def __str__(self):
-      return (self.title)
 
 class OurSuccess(models.Model):
     title=models.CharField(max_length=200)
@@ -57,7 +37,9 @@ class OurSuccess(models.Model):
         return self.title
 class AccessToFinance(models.Model):
     title=models.CharField(max_length=100)
+    company_logo = models.ImageField(upload_to='finance_logo/', blank=True, null=True)
     description=models.TextField()
+    url=models.URLField()
 class Consultancy(models.Model):
     title=models.CharField(max_length=200)
     description=models.TextField()
@@ -99,18 +81,30 @@ class News(models.Model):
     def __str__(self):
         return self.title
 
-    
-class Tutorial(models.Model):
-    title = models.CharField(max_length=200)
-    course_image = models.ImageField(upload_to='tutorials_images/', blank=True, null=True)
-    description = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    instructor = models.CharField(max_length=100)
+class Tutorial_Instructor(models.Model):
+    instructor_name = models.CharField(max_length=100)
     instructor_image=models.ImageField(upload_to='instructor_images/', blank=True, null=True)
     instructor_title=models.CharField(max_length=200)
     about_instructor=models.TextField()
 
+class Tutorial(models.Model):
+    title = models.CharField(max_length=200)
+    course_image = models.ImageField(upload_to='tutorials_images/', blank=True, null=True)
+    description = models.TextField()
+    details = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
     def __str__(self):
         return self.title
 
+class DocumentSubmission(models.Model):
+    name = models.CharField(max_length=100)
+    education_level = models.CharField(max_length=50)
+    institution = models.CharField(max_length=100)
+    selected_documents = models.JSONField() 
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

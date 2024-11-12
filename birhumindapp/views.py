@@ -2,9 +2,21 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import News, OurService,  OurSuccess, Tutorial, Consultancy, AccessToFinance, UserProfile
-from .serializers import NewsSerializer, OurServiceSerializer,  OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer, UserProfileSerializer
+from rest_framework.decorators import api_view
+from .models import DocumentSubmission, News, OurService,  OurSuccess, Tutorial, Consultancy, AccessToFinance,  Tutorial_Instructor
+from .serializers import  DocumentSubmissionSerializer, NewsSerializer, OurServiceSerializer,  OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer, UserProfileSerializer, Tutorial_InstructorSerializer
 
+@api_view(['POST'])
+def submit_document(request):
+    if request.method == 'POST':
+        serializer = DocumentSubmissionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class Tutorial_InstructorViewset(viewsets.ModelViewSet):
+    queryset=Tutorial_Instructor.objects.all()
+    serializer_class=Tutorial_InstructorSerializer
 class AccessToFinanceViewset(viewsets.ModelViewSet):
     queryset=AccessToFinance.objects.all()
     serializer_class=AccessToFinanceSerializer
@@ -33,4 +45,4 @@ class NewsViewSet(viewsets.ModelViewSet):
 class OurServiceViewSet(viewsets.ModelViewSet):
     queryset=OurService.objects.all()
     serializer_class=OurServiceSerializer
-# Create your views here.
+

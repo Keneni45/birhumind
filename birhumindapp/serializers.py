@@ -1,7 +1,11 @@
 from rest_framework import serializers
-from .models import News, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance
+from .models import News,DocumentSubmission, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance, Tutorial_Instructor
 from django.contrib.auth.models import User
 
+class DocumentSubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DocumentSubmission
+        fields = '__all__'
 
 class AccessToFinanceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,6 +30,10 @@ class OurSuccessSerializer(serializers.ModelSerializer):
 class TutorialSerializer(serializers.ModelSerializer):
     class Meta:
         model=Tutorial
+        fields= '__all__'
+class Tutorial_InstructorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Tutorial_Instructor
         fields= '__all__'
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
