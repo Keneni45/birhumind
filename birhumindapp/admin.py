@@ -1,7 +1,29 @@
 from django.contrib import admin
-from birhumindapp.models import Tutorial_Instructor,   News, OurService,OurSuccess, Tutorial, Consultancy, AccessToFinance
+from birhumindapp.models import DocumentSubmission, Tutorial_Instructor, UserProfile,  News, OurService,OurSuccess, Tutorial, Consultancy, AccessToFinance
 
+class DocumentRequestAdmin(admin.ModelAdmin):
+    readonly_fields=('name', 'institution', 'education_level', 'document_type', 'selected_documents', 'selected_templates')
+    def has_add_permission(self, request):
+        return False
 
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+class UserProfileAdmin(admin.ModelAdmin):
+    
+    readonly_fields = ('username', 'age', 'gender', 'education_level', 'created_at')
+    
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+admin.site.register(DocumentSubmission, DocumentRequestAdmin)    
 admin.site.register(News)
 admin.site.register(OurService)
 admin.site.register(OurSuccess)
@@ -9,8 +31,11 @@ admin.site.register(Tutorial)
 admin.site.register(Consultancy)
 admin.site.register(AccessToFinance)
 admin.site.register(Tutorial_Instructor)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.site_header = "Birhuminds Admin Interface"
-admin.site.index_title = "Welcome to My Admin Portal"# 
+admin.site.index_title = "Welcome to My Admin Portal"
+
+
 
 class TutorialInstructor(admin.ModelAdmin):
     list_display=('instructor_name', 'instructor_image', 'instructor_title', 'about_instructor')

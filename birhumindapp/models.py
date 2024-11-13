@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+
 class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -21,6 +22,7 @@ class UserProfile(models.Model):
         ('degree', 'Degree'),
         ('masterPlus', 'Masters or Higher')
     ])
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.username
@@ -99,12 +101,33 @@ class Tutorial(models.Model):
     def __str__(self):
         return self.title
 
+
+
 class DocumentSubmission(models.Model):
     name = models.CharField(max_length=100)
-    education_level = models.CharField(max_length=50)
     institution = models.CharField(max_length=100)
-    selected_documents = models.JSONField() 
+    selected_documents = models.JSONField()  # Stores the selected documents
+    selected_templates = models.JSONField(default=list)  # Stores the selected templates
     created_at = models.DateTimeField(auto_now_add=True)
+    education_level = models.CharField(
+        max_length=20,
+        choices=[
+            ('no-formal', 'No Formal Education'),
+            ('primary', 'Primary'),
+            ('secondary', 'Secondary'),
+            ('degree', 'Degree'),
+            ('masterPlus', 'Masters or Higher')
+        ]
+    )
+    document_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('bds', 'Bds Document'),
+            ('business', 'Business'),
+            ('tutorial', 'Tutorial')
+        ]
+    )
 
     def __str__(self):
-        return self.name
+        return f"Document Submission: {self.name} - {self.institution}"
+

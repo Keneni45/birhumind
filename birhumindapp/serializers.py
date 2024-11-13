@@ -1,11 +1,18 @@
 from rest_framework import serializers
-from .models import News,DocumentSubmission, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance, Tutorial_Instructor
+from .models import DocumentSubmission, News, DocumentSubmission, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance, Tutorial_Instructor
 from django.contrib.auth.models import User
+
+
 
 class DocumentSubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = DocumentSubmission
-        fields = '__all__'
+        fields = ['name', 'institution', 'education_level', 'document_type', 'selected_documents', 'selected_templates']
+
+    def validate(self, data):
+        if not data.get('selected_documents'):
+            raise serializers.ValidationError("At least one document type must be selected.")
+        return data
 
 class AccessToFinanceSerializer(serializers.ModelSerializer):
     class Meta:
