@@ -25,7 +25,7 @@ TEMP_DIR=Path(BASE_DIR, "templates")
 SECRET_KEY = 'django-insecure-ajyb@e!_il60poat(5!w4dcrd8nstrl$vk8ucq7h(2_ch@(h=2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 #ALLOWED_HOSTS = ['birhumind.onrender.com']
 ALLOWED_HOSTS=[]
@@ -143,9 +143,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT=BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-DEBUG = True
+DEBUG = False
