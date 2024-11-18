@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-ajyb@e!_il60poat(5!w4dcrd8nstrl$vk8ucq7h(2_ch@(h=2
 
 
 #ALLOWED_HOSTS = ['birhumind.onrender.com']
-ALLOWED_HOSTS=[]
+ALLOWED_HOSTS=['menshdigitalbds.com', 'https://menshdigitalbds.com']
 
 
 # Application definition
@@ -62,7 +62,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    # "http://localhost:5173",
+    "https://menshdigitalbds.com",
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'birhumind.urls'
