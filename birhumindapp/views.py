@@ -3,12 +3,29 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from .models import News, OurService,  OurSuccess, Tutorial, Consultancy, AccessToFinance,  Tutorial_Instructor
-from .serializers import  DocumentSubmissionSerializer, NewsSerializer, OurServiceSerializer,  OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer, UserProfileSerializer, Tutorial_InstructorSerializer
+from .models import News, OurService, Subscription,  OurSuccess, Tutorial, Consultancy, AccessToFinance,  Tutorial_Instructor
+from .serializers import SubscriptionSerializer,  DocumentSubmissionSerializer, NewsSerializer, OurServiceSerializer,  OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer, UserProfileSerializer, Tutorial_InstructorSerializer
+from .utils import send_subscription_email
 
 
-
-
+@api_view(['POST'])
+def subscribe(request):
+    if request.method == 'POST':
+        serializer = SubscriptionSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            # Check if email already exists
+            if Subscription.objects.filter(email=email).exists():
+                return Response({'message': 'This email is already subscribed.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Save the subscription
+            serializer.save()
+            
+            # Send confirmation email
+            send_subscription_email(email)
+            
+            return Response({'message': 'Subscription successful!'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 class DocumentSubmissionView(APIView):
     def post(self, request, *args, **kwargs):
         # Deserialize the request data

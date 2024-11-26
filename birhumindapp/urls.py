@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DocumentSubmissionView, NewsViewSet, OurServiceViewSet,Tutorial_InstructorViewset,  OurSuccessViewSet, TutorialViewSet, ConsultancyViewset, AccessToFinanceViewset, RegisterUser
+from .views import  DocumentSubmissionView, NewsViewSet, OurServiceViewSet,Tutorial_InstructorViewset,  OurSuccessViewSet, TutorialViewSet, ConsultancyViewset, AccessToFinanceViewset, RegisterUser
+from . import views
 
 router = DefaultRouter()
 router.register('news', NewsViewSet)
@@ -16,5 +17,6 @@ urlpatterns = [
     path('', include(router.urls)),
     path('registration/', RegisterUser.as_view(), name='register-user'),
     path('submit/', DocumentSubmissionView.as_view(), name='submit-document'),
+      path('subscribe', views.subscribe, name='subscribe'),
 
 ]
