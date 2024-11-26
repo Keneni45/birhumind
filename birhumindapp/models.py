@@ -3,15 +3,12 @@ from django.contrib.auth.models import User
 
 class Subscription(models.Model):
     email = models.EmailField(unique=True)
-    date_subscribed = models.DateTimeField(auto_now_add=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.email
 
-class NewModel(models.Model):
-    email = models.EmailField(unique=True)
-    def __str__(self):
-        return self.email
+
 class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -32,6 +29,17 @@ class UserProfile(models.Model):
         ('masterPlus', 'Masters or Higher')
     ])
     created_at = models.DateTimeField(auto_now_add=True)
+
+    APPROVAL_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('denied', 'Denied'),
+    ]
+    approval_status = models.CharField(
+        max_length=10,
+        choices=APPROVAL_STATUS_CHOICES,
+        default='pending'
+    )
 
     def __str__(self):
         return self.username

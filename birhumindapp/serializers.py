@@ -45,7 +45,21 @@ class Tutorial_InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model=Tutorial_Instructor
         fields= '__all__'
+# class UserProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = UserProfile
+#         fields = ['username', 'age', 'gender', 'education_level']
+
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['username', 'age', 'gender', 'education_level']
+        fields = ['id', 'username', 'age', 'gender', 'education_level', 'approval_status']
+        read_only_fields = ['approval_status']  # Optionally make approval_status read-only for most users
+
+    def update(self, instance, validated_data):
+        """
+        Custom update method to handle approval_status update when an admin updates a user.
+        """
+        if 'approval_status' in validated_data:
+            instance.approval_status = validated_data['approval_status']
+        return super().update(instance, validated_data)

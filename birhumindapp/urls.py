@@ -17,6 +17,11 @@ urlpatterns = [
     path('', include(router.urls)),
     path('registration/', RegisterUser.as_view(), name='register-user'),
     path('submit/', DocumentSubmissionView.as_view(), name='submit-document'),
-      path('subscribe', views.subscribe, name='subscribe'),
+    path('subscribe', views.subscribe, name='subscribe'),
+    path('admin/users/', views.view_users, name='view_users'),
+    path('admin/approve/<int:user_id>/', views.approve_user, name='approve_user'),
+    path('admin/deny/<int:user_id>/', views.deny_user, name='deny_user'),
+    path('admin/delete/<int:user_id>/', views.delete_user, name='delete_user')
+
 
 ]

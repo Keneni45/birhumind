@@ -6,6 +6,59 @@ from rest_framework.decorators import api_view
 from .models import News, OurService, Subscription,  OurSuccess, Tutorial, Consultancy, AccessToFinance,  Tutorial_Instructor
 from .serializers import SubscriptionSerializer,  DocumentSubmissionSerializer, NewsSerializer, OurServiceSerializer,  OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer, UserProfileSerializer, Tutorial_InstructorSerializer
 from .utils import send_subscription_email
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .models import UserProfile
+from django.http import Http404
+
+# Admin view to list all users
+@login_required
+def view_users(request):
+    if not request.user.is_staff:
+        raise Http404("You are not authorized to view this page.")
+    
+    users = UserProfile.objects.all()
+    return render(request, 'users/admin_users.html', {'users': users})
+
+# Approve user registration
+@login_required
+def approve_user(request, user_id):
+    if not request.user.is_staff:
+        raise Http404("You are not authorized to perform this action.")
+    
+    user = UserProfile.objects.get(id=user_id)
+    if user:
+        user.approval_status = 'approved'
+        user.save()
+        messages.success(request, f"User {user.username} approved successfully.")
+    return redirect('users:view_users')
+
+# Deny user registration
+@login_required
+def deny_user(request, user_id):
+    if not request.user.is_staff:
+        raise Http404("You are not authorized to perform this action.")
+    
+    user = UserProfile.objects.get(id=user_id)
+    if user:
+        user.approval_status = 'denied'
+        user.save()
+        messages.success(request, f"User {user.username} denied successfully.")
+    return redirect('users:view_users')
+
+# Delete a user account
+@login_required
+def delete_user(request, user_id):
+    if not request.user.is_staff:
+        raise Http404("You are not authorized to perform this action.")
+    
+    user = UserProfile.objects.get(id=user_id)
+    if user:
+        user.delete()
+        messages.success(request, f"User {user.username} deleted successfully.")
+    return redirect('users:view_users')
+
 
 
 @api_view(['POST'])

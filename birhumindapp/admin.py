@@ -1,5 +1,5 @@
 from django.contrib import admin
-from birhumindapp.models import DocumentSubmission, Tutorial_Instructor, UserProfile,  News, OurService,OurSuccess, Tutorial, Consultancy, AccessToFinance
+from birhumindapp.models import Subscription, DocumentSubmission, Tutorial_Instructor, UserProfile,  News, OurService,OurSuccess, Tutorial, Consultancy, AccessToFinance
 
 class DocumentRequestAdmin(admin.ModelAdmin):
     readonly_fields=('name', 'institution', 'education_level', 'document_type', 'selected_documents', 'selected_templates')
@@ -11,10 +11,26 @@ class DocumentRequestAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+# class UserProfileAdmin(admin.ModelAdmin):
+    
+#     readonly_fields = ('username', 'age', 'gender', 'education_level', 'created_at')
+    
+#     def has_add_permission(self, request):
+#         return False
+
+#     def has_change_permission(self, request, obj=None):
+#         return False
+
+#     def has_delete_permission(self, request, obj=None):
+#         return False
 class UserProfileAdmin(admin.ModelAdmin):
-    
-    readonly_fields = ('username', 'age', 'gender', 'education_level', 'created_at')
-    
+    list_display = ('username', 'age', 'gender', 'education_level', 'approval_status', 'created_at')
+    list_filter = ('approval_status',)
+    search_fields = ('username', 'email')
+class SubscriptionAdmin(admin.ModelAdmin):
+
+    list_display = ('email', 'subscribed_at')
+
     def has_add_permission(self, request):
         return False
 
@@ -22,7 +38,10 @@ class UserProfileAdmin(admin.ModelAdmin):
         return False
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return False 
+
+# Register the Subscription model with the admin site
+admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(DocumentSubmission, DocumentRequestAdmin)    
 admin.site.register(News)
 admin.site.register(OurService)
