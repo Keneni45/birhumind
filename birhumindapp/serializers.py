@@ -1,7 +1,12 @@
 from rest_framework import serializers
-from .models import DocumentSubmission, Subscription, News, DocumentSubmission, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance, Tutorial_Instructor
+from .models import Event, DocumentSubmission, Subscription, News, DocumentSubmission, OurService, UserProfile, OurSuccess, Tutorial, Consultancy, AccessToFinance, Tutorial_Instructor
 from django.contrib.auth.models import User
 
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ['id', 'title', 'description', 'date', 'location', 'price']
 class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription

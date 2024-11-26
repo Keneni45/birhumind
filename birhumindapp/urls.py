@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import  DocumentSubmissionView, NewsViewSet, OurServiceViewSet,Tutorial_InstructorViewset,  OurSuccessViewSet, TutorialViewSet, ConsultancyViewset, AccessToFinanceViewset, RegisterUser
+from .views import EventListCreateView, DocumentSubmissionView, NewsViewSet, OurServiceViewSet,Tutorial_InstructorViewset,  OurSuccessViewSet, TutorialViewSet, ConsultancyViewset, AccessToFinanceViewset, RegisterUser
 from . import views
 
 router = DefaultRouter()
@@ -21,7 +21,6 @@ urlpatterns = [
     path('admin/users/', views.view_users, name='view_users'),
     path('admin/approve/<int:user_id>/', views.approve_user, name='approve_user'),
     path('admin/deny/<int:user_id>/', views.deny_user, name='deny_user'),
-    path('admin/delete/<int:user_id>/', views.delete_user, name='delete_user')
-
-
+    path('admin/delete/<int:user_id>/', views.delete_user, name='delete_user'),
+    path('events/', EventListCreateView.as_view(), name='event-list-create'),
 ]

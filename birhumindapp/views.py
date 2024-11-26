@@ -3,16 +3,32 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
-from .models import News, OurService, Subscription,  OurSuccess, Tutorial, Consultancy, AccessToFinance,  Tutorial_Instructor
-from .serializers import SubscriptionSerializer,  DocumentSubmissionSerializer, NewsSerializer, OurServiceSerializer,  OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer, UserProfileSerializer, Tutorial_InstructorSerializer
+from .models import News, OurService, Event, Subscription,  OurSuccess, Tutorial, Consultancy, AccessToFinance,  Tutorial_Instructor
+from .serializers import EventSerializer, SubscriptionSerializer,  DocumentSubmissionSerializer, NewsSerializer, OurServiceSerializer,  OurSuccessSerializer, TutorialSerializer, ConsultancySerializer, AccessToFinanceSerializer, UserProfileSerializer, Tutorial_InstructorSerializer
 from .utils import send_subscription_email
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile
 from django.http import Http404
+class EventListCreateView(APIView):
+   
+    def get(self, request):
+        # Get all events and return them as a list
+        events = Event.objects.all()
+        serializer = EventSerializer(events, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        # Create a new event
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # Save the new event to the database
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Admin view to list all users
+
 @login_required
 def view_users(request):
     if not request.user.is_staff:

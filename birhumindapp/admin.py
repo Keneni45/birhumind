@@ -1,5 +1,5 @@
 from django.contrib import admin
-from birhumindapp.models import Subscription, DocumentSubmission, Tutorial_Instructor, UserProfile,  News, OurService,OurSuccess, Tutorial, Consultancy, AccessToFinance
+from birhumindapp.models import Event, Subscription, DocumentSubmission, Tutorial_Instructor, UserProfile,  News, OurService,OurSuccess, Tutorial, Consultancy, AccessToFinance
 
 class DocumentRequestAdmin(admin.ModelAdmin):
     readonly_fields=('name', 'institution', 'education_level', 'document_type', 'selected_documents', 'selected_templates')
@@ -40,7 +40,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False 
 
-# Register the Subscription model with the admin site
+admin.site.register(Event)
 admin.site.register(Subscription, SubscriptionAdmin)
 admin.site.register(DocumentSubmission, DocumentRequestAdmin)    
 admin.site.register(News)
