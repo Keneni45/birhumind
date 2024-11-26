@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from birhumindapp import views
-
+from django.shortcuts import redirect
+def redirect_to_external_site(request):
+    return redirect('https://menshdigitalbds.com')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('birhumindapp.urls')),
+    # path('', redirect_to_external_site),
     
 
 ]

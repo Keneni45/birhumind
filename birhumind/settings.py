@@ -27,9 +27,11 @@ SECRET_KEY = 'django-insecure-ajyb@e!_il60poat(5!w4dcrd8nstrl$vk8ucq7h(2_ch@(h=2
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-#ALLOWED_HOSTS = ['birhumind.onrender.com']
-ALLOWED_HOSTS=['menshdigitalbds.com', 'https://menshdigitalbds.com']
-
+ALLOWED_HOSTS = []
+#DEBUG = True
+#ALLOWED_HOSTS=['menshdigitalbds.com', 'https://menshdigitalbds.com']
+DEBUG=True
+#ALLOWED_HOSTS=['keneni.pythonanywhere.com', 'https://kenenipythonanywhere.com']
 
 # Application definition
 
@@ -150,4 +152,4 @@ STATIC_ROOT=BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-DEBUG = False
+

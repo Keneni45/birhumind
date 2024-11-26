@@ -50,6 +50,8 @@ class Consultancy(models.Model):
 
     class Meta:
         ordering = ['-published_date']
+        # verbose_name = "ADVISOR AND COACHING"
+        # verbose_name_plural = "ADVISOR AND COACHING"
 
     def __str__(self):
         return self.title
@@ -75,6 +77,7 @@ class News(models.Model):
     published_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='news_images/', blank=True, null=True)
+    
     category = models.CharField(max_length=100, blank=True)
 
     class Meta:
