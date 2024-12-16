@@ -102,7 +102,7 @@
 #           SSH_USER: ${{ secrets.SSH_USER }}
 #           VPS_IP: ${{ secrets.VPS_IP }}
 
-
+name: django project
 jobs:
   deploy:
     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
