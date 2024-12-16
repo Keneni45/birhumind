@@ -1,4 +1,4 @@
-name: Deploy Django App
+name: Deploy Django BirhumindApp
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'  
+          python-version: '3.12.3'  
 
       - name: Install dependencies
         run: |
@@ -29,10 +29,10 @@ jobs:
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" ${{ secrets.SSH_USER }}@${{ secrets.VPS_IP }} << 'EOF'
-          cd /path/to/your/django/project
+          ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" ${{ secrets.SSH_USER }}@${{ secrets.VPS_IP }} << 'EOF'         
+          cd /var/www/birhubackend/birhumind
           git pull origin main
-          source /path/to/your/venv/bin/activate
+          source /var/www/birhubackend/benv/bin/activate
           pip install -r requirements.txt
           python manage.py migrate
           sudo systemctl restart gunicorn  
