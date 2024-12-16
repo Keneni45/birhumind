@@ -43,5 +43,5 @@ jobs:
           EOF
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          
+          SSH_USER: ${{ secrets.SSH_USER }}
           VPS_IP: ${{ secrets.VPS_IP }}
