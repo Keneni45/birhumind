@@ -16,7 +16,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.12.3'  
+          python-version: '3.12.3'
+      - name: List Installed Packages
+        run: |
+          source venv/bin/activate
+          pip list
 
       - name: Create and activate virtual environment
         run: |
