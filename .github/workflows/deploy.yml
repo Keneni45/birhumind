@@ -1,3 +1,51 @@
+# name: Deploy Django Application
+
+# on:
+#   push:
+#     branches:
+#       - main  # Trigger the workflow when code is pushed to the 'main' branch
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2  # Check out the repository code
+
+#       - name: Set up Python
+#         uses: actions/setup-python@v2
+#         with:
+#           python-version: '3.12.3'  # Use Python 3.12.3 (or adjust to your version)
+
+#       - name: Install dependencies
+#         run: |
+#           python -m venv bevn  # Create a virtual environment
+#           source bevn/bin/activate  # Activate the virtual environment
+#           pip install --upgrade pip  # Upgrade pip
+#           pip install -r requirements.txt  # Install the dependencies from requirements.txt
+
+#       - name: Run Tests
+#         run: |
+#           source bevn/bin/activate  # Activate the virtual environment
+#           python manage.py test  # Run Django tests
+
+#       - name: Deploy to VPS
+#         run: |
+#           ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" ${{ secrets.SSH_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+#           # SSH into the VPS and run deployment commands
+#           cd /var/www/birhubackend/birhumind  # Navigate to the project directory
+#           git pull origin main  # Pull the latest code from the main branch
+#           source /var/www/birhubackend/benv/bin/activate  # Activate the virtual environment on the server
+#           pip install -r requirements.txt  # Install the dependencies on the VPS
+#           python manage.py migrate  # Apply database migrations
+#           sudo systemctl restart gunicorn  # Restart the Gunicorn service to apply changes
+#           EOF
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#           SSH_USER: ${{ secrets.SSH_USER }}
+#           VPS_IP: ${{ secrets.VPS_IP }}
+
 name: Deploy Django Application
 
 on:
@@ -30,10 +78,18 @@ jobs:
           source bevn/bin/activate  # Activate the virtual environment
           python manage.py test  # Run Django tests
 
-      - name: Deploy to VPS
+      - name: Set up SSH and Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" ${{ secrets.SSH_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+          mkdir -p ~/.ssh  # Create the SSH directory
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # Write the SSH private key to id_rsa
+          chmod 600 ~/.ssh/id_rsa  # Set correct permissions for the private key
+
+          # Add the VPS to known hosts to avoid SSH warnings
+          ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
+
           # SSH into the VPS and run deployment commands
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.VPS_IP }} << 'EOF'
+          # Deployment steps on the VPS
           cd /var/www/birhubackend/birhumind  # Navigate to the project directory
           git pull origin main  # Pull the latest code from the main branch
           source /var/www/birhubackend/benv/bin/activate  # Activate the virtual environment on the server
