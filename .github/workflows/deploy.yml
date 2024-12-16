@@ -18,18 +18,21 @@ jobs:
         with:
           python-version: '3.12.3'  
 
-      - name: Install dependencies
+      - name: Create and activate virtual environment
         run: |
+          python -m venv benv
+          source benv/bin/activate
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run Tests
         run: |
+          source benv/bin/activate
           python manage.py test
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" ${{ secrets.SSH_USER }}@${{ secrets.VPS_IP }} << 'EOF'         
+          ssh -o StrictHostKeyChecking=no -i "${{ secrets.SSH_PRIVATE_KEY }}" ${{ secrets.SSH_USER }}@${{ secrets.VPS_IP }} << 'EOF'
           cd /var/www/birhubackend/birhumind
           git pull origin main
           source /var/www/birhubackend/benv/bin/activate
